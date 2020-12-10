@@ -1,147 +1,149 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br />
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
-        >vue-cli documentation</a
-      >.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
-          target="_blank"
-          rel="noopener"
-          >babel</a
+  <div class="w-full h-full p-3">
+    <section
+      class="w-2/3 mx-auto relative flex justify-between items-center mt-8 h-24"
+    >
+      <drop-down
+        position="left"
+        :is-shown="isShown"
+        @onClickOutside="toggleDropDown"
+      >
+        <template v-slot:anchor>
+          <button
+            class="btn btn-round btn-green w-12 h-12 text-white justify-center items-center text-xl"
+            @click="toggleDropDown"
+          >
+            P
+          </button>
+        </template>
+        <template v-slot:content>
+          <div class="pt-2">
+            <notification-item
+              v-for="(notification, index) in notifications"
+              :entry="notification"
+              :key="index"
+              class="border-b last:border-white dark:border-gray-800 last:border-gray-900"
+            />
+            <a
+              href="#"
+              class="block bg-indigo-700 hover:bg-indigo-500 text-white text-center font-bold py-2"
+              >See all notifications</a
+            >
+          </div>
+        </template>
+      </drop-down>
+    </section>
+    <section class="w-1/2 mx-auto h-auto pa-6 mb-8">
+      <div class="w-full px-4 mb-1">
+        <button
+          v-for="color in colors"
+          :key="color"
+          :class="[
+            'btn',
+            `btn-${color}`,
+            `hover:bg-${color}-700`,
+            'mr-2',
+            'mb-2',
+            'text-xs',
+            'w-24',
+            'text-white',
+            'rounded',
+            'shadow-md',
+            'disabled:opacity-50',
+            'disabled:cursor-not-allowed'
+          ]"
         >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router"
-          target="_blank"
-          rel="noopener"
-          >router</a
+          {{ color }}
+        </button>
+      </div>
+      <div class="w-full px-4">
+        <button
+          v-for="color in colors"
+          disabled
+          :key="color"
+          :class="[
+            'btn',
+            `btn-${color}`,
+            'mr-2',
+            'mb-2',
+            'text-xs',
+            'w-24',
+            'text-white',
+            'rounded',
+            'shadow-md',
+            'disabled:opacity-50',
+            'disabled:cursor-not-allowed'
+          ]"
         >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex"
-          target="_blank"
-          rel="noopener"
-          >vuex</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint"
-          target="_blank"
-          rel="noopener"
-          >eslint</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest"
-          target="_blank"
-          rel="noopener"
-          >unit-jest</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript"
-          target="_blank"
-          rel="noopener"
-          >typescript</a
-        >
-      </li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li>
-        <a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a>
-      </li>
-      <li>
-        <a href="https://forum.vuejs.org" target="_blank" rel="noopener"
-          >Forum</a
-        >
-      </li>
-      <li>
-        <a href="https://chat.vuejs.org" target="_blank" rel="noopener"
-          >Community Chat</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/vuejs" target="_blank" rel="noopener"
-          >Twitter</a
-        >
-      </li>
-      <li>
-        <a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a>
-      </li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
-      </li>
-      <li>
-        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-devtools#vue-devtools"
-          target="_blank"
-          rel="noopener"
-          >vue-devtools</a
-        >
-      </li>
-      <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-          rel="noopener"
-          >awesome-vue</a
-        >
-      </li>
-    </ul>
+          {{ color }}
+        </button>
+      </div>
+    </section>
+
+    <grid-layout :cols-md="2" :cols-lg="3" :cols-xl="4">
+      <user-card
+        v-for="user in users"
+        :key="user.email"
+        :user="user"
+        class="auto-cols-auto"
+      />
+    </grid-layout>
+
+    <section class="w-full mx-auto mt-8 ">
+      <login-card />
+    </section>
+
+    <section class="w-full xl:w-4/5 mx-auto mt-8 ">
+      <data-table :data="dataTableEntries" />
+    </section>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import UserCard from "@/components/UserCard.vue";
+import DropDown from "@/components/DropDown.vue";
+import { useDropDown } from "@/composables/dropDown";
+import { users, notifications, dataTableEntries } from "@/mocks";
+import NotificationItem from "@/components/NotificationItem.vue";
+import GridLayout from "@/components/layouts/GridLayout.vue";
+import LoginCard from "@/components/LoginCard.vue";
+import DataTable from "@/components/DataTable.vue";
 
 export default defineComponent({
   name: "HelloWorld",
+  components: {
+    DataTable,
+    LoginCard,
+    NotificationItem,
+    UserCard,
+    DropDown,
+    GridLayout
+  },
   props: {
     msg: String
+  },
+  setup() {
+    const colors = [
+      "blue",
+      "red",
+      "pink",
+      "indigo",
+      "green",
+      "yellow",
+      "regal-blue"
+    ];
+
+    const { isShown, toggleDropDown } = useDropDown();
+
+    return {
+      colors,
+      users,
+      notifications,
+      dataTableEntries,
+      isShown,
+      toggleDropDown
+    };
   }
 });
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus">
-h3
-  margin 40px 0 0
-
-ul
-  list-style-type none
-  padding 0
-
-li
-  display inline-block
-  margin 0 10px
-
-a
-  color #42b983
-</style>

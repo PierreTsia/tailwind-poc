@@ -1,17 +1,27 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <navbar />
   <router-view />
 </template>
+<script lang="ts">
+import Navbar from "@/components/navbar/Navbar.vue";
+import { useDarkmode } from "@/composables/darkMode";
+import { useStore } from "vuex";
+
+export default {
+  components: {
+    Navbar
+  },
+  setup() {
+    const store = useStore();
+    const { initDarkMode } = useDarkmode(store);
+    initDarkMode();
+  }
+};
+</script>
 
 <style lang="stylus">
 #app
   font-family Avenir, Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
 </style>
